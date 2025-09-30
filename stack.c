@@ -11,16 +11,15 @@ struct stack init_stack() {
 	return s;
 }
 
-void extend_stack(struct stack* s) {
-	int new_size = s->curr_size * 2;
-	int* new_arr = (int*) malloc(sizeof(int) * new_size);
-	if (new_arr == NULL) perror("Error: unable to extend the stack\n");
-	for (int i = 0; i < s->curr_size; i++) {
-		new_arr[i] = s->nums[i];
-	}
-	free(s->nums);
-	s->nums = new_arr;
-	s->curr_size = new_size;
+void extend_stack(struct stack *s) {
+    int new_size = s->curr_size * 2;
+    int *tmp = realloc(s->nums, new_size * sizeof(int));
+    if (tmp == NULL) {
+        printf("Error: realloc failed\n");
+        exit(1);
+    }
+    s->nums = tmp;
+    s->curr_size = new_size;
 }
 
 void push(struct stack* s, int num) {
